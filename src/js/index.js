@@ -1,4 +1,4 @@
-const { promptListActions, promptAddEmployeeQuestions } = require("./prompts");
+const { promptListActions, promptAddEmployee } = require("./prompts");
 const { handleError, instructionsMessage } = require("./utils");
 
 async function init() {
@@ -6,7 +6,7 @@ async function init() {
 		instructionsMessage();
 		const actionSelected = await promptListActions();
 		if (actionSelected == "Add Employee") {
-			const employee = await promptAddEmployeeQuestions();
+			const employee = await promptAddEmployee();
 		}
 	} catch (err) {
 		handleError(err);
