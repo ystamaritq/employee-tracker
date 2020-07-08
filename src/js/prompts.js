@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const { cyan } = require("colors");
+const Employee = require("./Employee");
 
 // START - Questions
 const actions = [
@@ -9,24 +10,41 @@ const actions = [
 		name: "action",
 		message: "What would you like to do?",
 		choices: [
-			"Add Employee".cyan,
-			"View All Employees".cyan,
-			"Update Employee".cyan,
-			"Remove Employee".cyan,
-			"Update Employee Role".cyan,
-			"Update Employee Manager".cyan,
-			"View All Employees by Department".cyan,
-			"View All Employees by Manager".cyan,
-			"View All Employees by Role".cyan,
-			"Add Role".cyan,
-			"View All Roles".cyan,
-			"Update Role".cyan,
-			"Remove Role".cyan,
-			"Add Department".cyan,
-			"View All Departments".cyan,
-			"Update Department".cyan,
-			"Remove Department".cyan,
+			"Add Employee",
+			"View All Employees",
+			"Update Employee",
+			"Remove Employee",
+			"Update Employee Role",
+			"Update Employee Manager",
+			"View All Employees by Department",
+			"View All Employees by Manager",
+			"View All Employees by Role",
+			"Add Role",
+			"View All Roles",
+			"Update Role",
+			"Remove Role",
+			"Add Department",
+			"View All Departments",
+			"Update Department",
+			"Remove Department",
 		],
+	},
+];
+
+const addEmployee = [
+	{
+		type: "input",
+		prefix: "*".cyan.bold,
+		message: "Please enter the employee first name",
+		name: "first_name",
+		validate: validateNonEmpty,
+	},
+	{
+		type: "input",
+		prefix: "*".cyan.bold,
+		message: "Please enter the employee last name",
+		name: "last_name",
+		validate: validateNonEmpty,
 	},
 ];
 
@@ -38,8 +56,19 @@ async function promptListActions() {
 	return answers.action;
 }
 
+async function promptAddEmployeeQuestions() {
+	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(addEmployee);
+	return new Employee(info.first_name, info.last_name);
+}
+
+function validateNonEmpty(input) {
+	return !input || input === "" ? "Invalid input" : true;
+}
+
 // Ends - Prompts
 
 module.exports = {
 	promptListActions: promptListActions,
+	promptAddEmployeeQuestions: promptAddEmployeeQuestions,
 };
