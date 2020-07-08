@@ -22,10 +22,10 @@ const actions = [
 			"View All Roles".cyan,
 			"Update Role".cyan,
 			"Remove Role".cyan,
-			"Add Deparment".cyan,
+			"Add Department".cyan,
 			"View All Departments".cyan,
-			"Update Deparment".cyan,
-			"Remove Deparment".cyan,
+			"Update Department".cyan,
+			"Remove Department".cyan,
 		],
 	},
 ];
@@ -37,6 +37,8 @@ async function promptListActions() {
 	const answers = await inquirer.prompt(actions);
 	return answers.action;
 }
+
+// Ends - Prompts
 
 module.exports = {
 	promptListActions: promptListActions,
