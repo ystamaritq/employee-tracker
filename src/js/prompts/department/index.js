@@ -2,73 +2,68 @@ const inquirer = require("inquirer");
 const { cyan } = require("colors");
 const { validateNonEmpty } = require("./../../utils");
 const Department = require("../../models/Department");
+const db = require("../../db/department");
 
 // START - Department questions
-const addDepartmentQuestions = [
-	{
-		type: "input",
-		prefix: "*".cyan.bold,
-		message: "Please add the department's name",
-		name: "name",
-		validate: validateNonEmpty,
-	},
-];
+function getDepartmentQuestions(defaults = {}) {
+	return [
+		{
+			type: "input",
+			prefix: "*".cyan.bold,
+			message: "Department's name",
+			name: "name",
+			default: defaults.name,
+			validate: validateNonEmpty,
+		},
+	];
+}
 
-const removeDepartmentQuestions = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Select which department do you like to remove",
-		name: "remove",
-		validate: validateNonEmpty,
-	},
-];
+async function selectDepartment() {
+	const departments = await db.readAll();
+	const choices = departments.map((d) => ({ name: d.name, value: d.id }));
+	const answers = await inquirer.prompt([
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Select a department",
+			name: "selected",
+			choices: choices,
+		},
+	]);
+	return answers.selected;
+}
 
-const viewAllDepartmentsQuestions = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "List of Departments",
-		name: "view",
-		validate: validateNonEmpty,
-	},
-];
-
-const updateDepartmentQuestions = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Select a department to update",
-		name: "update",
-		validate: validateNonEmpty,
-	},
-];
 // ENDS - Department questions
 
 //START - Department prompts
 
 async function addDepartment() {
 	console.log(` \nEnter Department's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(addDepartmentQuestions);
-	return new Department(null, info.name);
+	const info = await inquirer.prompt(getDepartmentQuestions());
+	db.create(new Department(null, info.name));
 }
 
 async function viewAllDepartment() {
-	console.log(` \nView all Department \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(viewAllDepartmentsQuestions);
-	return info.view;
+	const departments = await db.readAll();
+	console.log(` \nDEPARTMENTS \n`.cyan.bold.dim.italic);
+	console.log(departments);
 }
 
 async function updateDepartment() {
+	console.log(` \nSelect the Department to Update \n`.cyan.bold.dim.italic);
+	const selectedId = await selectDepartment();
+	const selectedDepartment = await db.readOne(selectedId.selected);
 	console.log(` \nUpdate Department's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(updateDepartmentQuestions);
-	return new Department(null, info.name);
+	const info = await inquirer.prompt(
+		getDepartmentQuestions(selectedDepartment)
+	);
+	db.update(new Department(selectedId, info.name));
 }
 
 async function removeDepartment() {
 	console.log(` \nSelect the Department to Remove \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(removeDepartmentQuestions);
-	return console.log("Department Removed");
+	const selectedId = await selectDepartment();
+	db.remove(selectedId);
 }
 //ENDS - Department prompts
 
