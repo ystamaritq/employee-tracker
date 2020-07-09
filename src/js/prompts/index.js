@@ -1,8 +1,12 @@
 const inquirer = require("inquirer");
 const { cyan } = require("colors");
 const Employee = require("../models/Employee");
+const Role = require("../models/Role");
+const Department = require("../models/Department");
+const { addEmployee } = require("./employee");
+const department_prompts = require("./department");
+const roles_prompts = require("./role");
 
-// START - Questions
 const actions = [
 	{
 		type: "list",
@@ -31,119 +35,47 @@ const actions = [
 	},
 ];
 
-//employee add prompt
-const addEmployee = [
-	{
-		type: "input",
-		prefix: "*".cyan.bold,
-		message: "Please enter the employee first name",
-		name: "first_name",
-		validate: validateNonEmpty,
-	},
-	{
-		type: "input",
-		prefix: "*".cyan.bold,
-		message: "Please enter the employee last name",
-		name: "last_name",
-		validate: validateNonEmpty,
-	},
-];
-
-// START - Roles questions
-const addRole = [
-	{
-		type: "input",
-		prefix: "*".cyan.bold,
-		message: "Please add role title",
-		name: "title",
-		validate: validateNonEmpty,
-	},
-	{
-		type: "number",
-		prefix: "*".cyan.bold,
-		message: "Please enter role salary",
-		name: "salary",
-		validate: validateNonEmpty,
-	},
-];
-
-const removeRole = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Select which role do you like to remove",
-		name: "remove",
-		validate: validateNonEmpty,
-	},
-];
-
-const viewAllRoles = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Roles",
-		name: "view",
-		validate: validateNonEmpty,
-	},
-];
-
-const updateRoles = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Select a role to update",
-		name: "update",
-		validate: validateNonEmpty,
-	},
-];
-
-// ENDS - Roles questions
-
-async function promptListActions() {
+async function showActions() {
 	const answers = await inquirer.prompt(actions);
-	return answers.action;
+	switch (answers.action) {
+		case "Add Employee":
+			addEmployee();
+			break;
+		case "View All Employees":
+			break;
+		case "Update Employee":
+			break;
+		case "Remove Employee":
+			break;
+		case "Update Employee Role":
+			break;
+		case "Update Employee Manager":
+			break;
+		case "View All Employees by Department":
+			break;
+		case "View All Employees by Manager":
+			break;
+		case "View All Employees by Role":
+			break;
+		case "Add Role":
+			break;
+		case "View All Roles":
+			break;
+		case "Update Role":
+			break;
+		case "Remove Role":
+			break;
+		case "Add Department":
+			break;
+		case "View All Departments":
+			break;
+		case "Update Department":
+			break;
+		case "Remove Department":
+			break;
+	}
 }
-
-async function promptAddEmployee() {
-	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(addEmployee);
-	return new Employee(info.first_name, info.last_name);
-}
-
-async function promptUpdateRoles() {
-	console.log(` \nUpdate Role's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(updateRoles);
-	return info;
-}
-
-//start role prompts
-async function promptAddRole() {
-	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(addRole);
-	return info;
-}
-
-async function promptRemoveRole() {
-	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(removeRole);
-	return info;
-}
-
-async function promptViewAllRoles() {
-	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(viewAllRoles);
-	return info;
-}
-
-//ends role prompts
-
-function validateNonEmpty(input) {
-	return !input || input === "" ? "Invalid input" : true;
-}
-
-// Ends - Prompts
 
 module.exports = {
-	promptListActions: promptListActions,
-	promptAddEmployee: promptAddEmployee,
+	showActions: showActions,
 };

@@ -20,7 +20,12 @@ const instructionsMessage = () =>
 		`.cyan
 	);
 
+function validateNonEmpty(input) {
+	return !input || input === "" ? "Invalid input" : true;
+}
+
 module.exports = {
-	handleError: handleError,
-	instructionsMessage: instructionsMessage,
+	handleError,
+	instructionsMessage,
+	validateNonEmpty,
 };
