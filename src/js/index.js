@@ -4,7 +4,9 @@ const { handleError, instructionsMessage } = require("./utils");
 async function init() {
 	try {
 		instructionsMessage();
-		showActions();
+		while (true) {
+			await showActions();
+		}
 	} catch (err) {
 		handleError(err);
 	}
