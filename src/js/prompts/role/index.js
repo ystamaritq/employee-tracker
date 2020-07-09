@@ -3,7 +3,7 @@ const { cyan } = require("colors");
 const { validateNonEmpty } = require("./../../utils");
 
 // START - Roles questions
-const addRole = [
+const addRoleQuestions = [
 	{
 		type: "input",
 		prefix: "*".cyan.bold,
@@ -20,7 +20,7 @@ const addRole = [
 	},
 ];
 
-const removeRole = [
+const removeRoleQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -30,7 +30,7 @@ const removeRole = [
 	},
 ];
 
-const viewAllRoles = [
+const viewAllRolesQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -40,7 +40,7 @@ const viewAllRoles = [
 	},
 ];
 
-const updateRoles = [
+const updateRolesQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -53,28 +53,27 @@ const updateRoles = [
 
 //START - Role prompts
 
-async function promptAddRole() {
-	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(addRole);
+async function addRole() {
+	console.log(` \nEnter Role's Info \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(addRoleQuestions);
+	return info.add;
+}
+
+async function viewAllRoles() {
+	console.log(` \nView all Roles \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(viewAllRolesQuestions);
 	return info;
 }
 
-async function promptViewAllRoles() {
-	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(viewAllRoles);
-	return info;
-}
-
-async function promptUpdateRoles() {
+async function updateRoles() {
 	console.log(` \nUpdate Role's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(updateRoles);
+	const info = await inquirer.prompt(updateRolesQuestions);
 	return info;
 }
 
-async function promptRemoveRole() {
-	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(removeRole);
+async function removeRole() {
+	console.log(` \nSelect the Role to Remove \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(removeRoleQuestions);
 	return info;
 }
-
 //ENDS - Role prompts
