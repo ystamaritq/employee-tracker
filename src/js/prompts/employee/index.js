@@ -24,20 +24,21 @@ const addEmployeeQuestions = [
 		prefix: "*".cyan.bold,
 		message: "Please select the employee role",
 		name: "role",
-		validate: validateNonEmpty,
+		choices: ["test1", "test2", "test3"],
 	},
 ];
 
-const viewEmployees = [
+const viewEmployeesQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
 		message: "List of Employees",
 		name: "view",
+		choices: ["test1", "test2", "test3"],
 	},
 ];
 
-const updateEmployee = [
+const updateEmployeeQuestions = [
 	{
 		type: "input",
 		prefix: "*".cyan.bold,
@@ -54,7 +55,7 @@ const updateEmployee = [
 	},
 ];
 
-const removeEmployee = [
+const removeEmployeeQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -63,7 +64,7 @@ const removeEmployee = [
 	},
 ];
 
-const employeesByDepartment = [
+const employeesByDepartmentQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -72,7 +73,7 @@ const employeesByDepartment = [
 	},
 ];
 
-const employeesByManager = [
+const employeesByManagerQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -81,7 +82,7 @@ const employeesByManager = [
 	},
 ];
 
-const employeesByRole = [
+const employeesByRoleQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -96,7 +97,9 @@ const employeesByRole = [
 async function addEmployee() {
 	console.log(` \nEnter Employee's Info \n`.cyan.bold.dim.italic);
 	const info = await inquirer.prompt(addEmployeeQuestions);
-	return new Employee(null, info.first_name, info.last_name, null, null);
+	return new Employee(null, info.first_name, info.last_name, info.role, null);
 }
+
+async function viewEmployees
 
 module.exports = { addEmployee };
