@@ -19,6 +19,13 @@ const addEmployeeQuestions = [
 		name: "last_name",
 		validate: validateNonEmpty,
 	},
+	{
+		type: "list",
+		prefix: "*".cyan.bold,
+		message: "Please select the employee role",
+		name: "role",
+		validate: validateNonEmpty,
+	},
 ];
 
 const viewEmployees = [
