@@ -71,3 +71,10 @@ async function removeDepartment() {
 	return console.log("Department Removed");
 }
 //ENDS - Department prompts
+
+module.exports = {
+	addDepartment,
+	viewAllDepartment,
+	updateDepartment,
+	removeDepartment,
+};

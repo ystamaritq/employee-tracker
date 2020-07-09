@@ -14,7 +14,12 @@ const {
 	updateEmployeeRole,
 	updateEmployeeManager,
 } = require("./employee");
-const {} = require("./department");
+const {
+	addDepartment,
+	viewAllDepartment,
+	updateDepartment,
+	removeDepartment,
+} = require("./department");
 const { addRole, viewAllRoles, updateRoles, removeRole } = require("./role");
 
 const actions = [
@@ -76,20 +81,28 @@ async function showActions() {
 			employeesByRole();
 			break;
 		case "Add Role":
+			addRole();
 			break;
 		case "View All Roles":
+			viewAllRoles();
 			break;
 		case "Update Role":
+			updateRoles();
 			break;
 		case "Remove Role":
+			removeRole();
 			break;
 		case "Add Department":
+			addDepartment();
 			break;
 		case "View All Departments":
+			viewAllDepartment();
 			break;
 		case "Update Department":
+			updateDepartment();
 			break;
 		case "Remove Department":
+			removeDepartment();
 			break;
 	}
 }
