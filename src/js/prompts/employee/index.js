@@ -102,6 +102,26 @@ const employeesByRoleQuestions = [
 	},
 ];
 
+const updateEmployeeRoleQuestions = [
+	{
+		type: "list",
+		prefix: "*".cyan.bold,
+		message: "Please select the employee to update the role",
+		name: "employee_role",
+		choices: ["test1", "test2", "test3"],
+	},
+];
+
+const updateEmployeeManagerQuestions = [
+	{
+		type: "list",
+		prefix: "*".cyan.bold,
+		message: "Please select the employee to update",
+		name: "employee_manager",
+		choices: ["test1", "test2", "test3"],
+	},
+];
+
 // ENDS - Employee questions
 
 // START - Functions
@@ -134,7 +154,7 @@ async function updateEmployee() {
 }
 
 // remove employee function
-async function removeEmplosyee() {
+async function removeEmployee() {
 	console.log(` \n Remove Employee \n`.cyan.bold.dim.italic);
 	const info = await inquirer.prompt(removeEmployeeQuestions);
 	return console.log("Employee removed");
@@ -161,12 +181,26 @@ async function employeesByRole() {
 	return info.by_role;
 }
 
+async function updateEmployeeRole() {
+	console.log(` \n Update Employee's Role \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(updateEmployeeRoleQuestions);
+	return info.employee_role;
+}
+
+async function updateEmployeeManager() {
+	console.log(` \n Update Employee's Role \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(updateEmployeeManagerQuestions);
+	return info.employee_manager;
+}
+
 module.exports = {
 	addEmployee,
 	viewEmployees,
 	updateEmployee,
-	removeEmplosyee,
+	removeEmployee,
 	employeesByDepartment,
 	employeesByManager,
 	employeesByRole,
+	updateEmployeeRole,
+	updateEmployeeManager,
 };

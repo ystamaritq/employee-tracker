@@ -37,43 +37,53 @@ const actions = [
 
 async function showActions() {
 	const answers = await inquirer.prompt(actions);
-	switch (answers.action) {
-		case "Add Employee":
-			addEmployee();
-			break;
-		case "View All Employees":
-			break;
-		case "Update Employee":
-			break;
-		case "Remove Employee":
-			break;
-		case "Update Employee Role":
-			break;
-		case "Update Employee Manager":
-			break;
-		case "View All Employees by Department":
-			break;
-		case "View All Employees by Manager":
-			break;
-		case "View All Employees by Role":
-			break;
-		case "Add Role":
-			break;
-		case "View All Roles":
-			break;
-		case "Update Role":
-			break;
-		case "Remove Role":
-			break;
-		case "Add Department":
-			break;
-		case "View All Departments":
-			break;
-		case "Update Department":
-			break;
-		case "Remove Department":
-			break;
+	while (answers) {
+		switch (answers.action) {
+			case "Add Employee":
+				addEmployee();
+				break;
+			case "View All Employees":
+				viewEmployees();
+				break;
+			case "Update Employee":
+				updateEmployee();
+				break;
+			case "Remove Employee":
+				removeEmployee();
+				break;
+			case "Update Employee Role":
+				updateEmployeeRole();
+				break;
+			case "Update Employee Manager":
+				updateEmployeeManager();
+				break;
+			case "View All Employees by Department":
+				break;
+			case "View All Employees by Manager":
+				employeesByDepartment();
+				break;
+			case "View All Employees by Role":
+				employeesByRole();
+				break;
+			case "Add Role":
+				break;
+			case "View All Roles":
+				break;
+			case "Update Role":
+				break;
+			case "Remove Role":
+				break;
+			case "Add Department":
+				break;
+			case "View All Departments":
+				break;
+			case "Update Department":
+				break;
+			case "Remove Department":
+				break;
+		}
 	}
+	return console.log("Finish");
 }
 
 module.exports = {
