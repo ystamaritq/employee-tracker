@@ -3,9 +3,24 @@ const { cyan } = require("colors");
 const Employee = require("../models/Employee");
 const Role = require("../models/Role");
 const Department = require("../models/Department");
-const { addEmployee } = require("./employee");
-const department_prompts = require("./department");
-const roles_prompts = require("./role");
+const {
+	addEmployee,
+	viewEmployees,
+	updateEmployee,
+	removeEmployee,
+	employeesByDepartment,
+	employeesByManager,
+	employeesByRole,
+	updateEmployeeRole,
+	updateEmployeeManager,
+} = require("./employee");
+const {
+	addDepartment,
+	viewAllDepartment,
+	updateDepartment,
+	removeDepartment,
+} = require("./department");
+const { addRole, viewAllRoles, updateRoles, removeRole } = require("./role");
 
 const actions = [
 	{
@@ -42,40 +57,56 @@ async function showActions() {
 			addEmployee();
 			break;
 		case "View All Employees":
+			viewEmployees();
 			break;
 		case "Update Employee":
+			updateEmployee();
 			break;
 		case "Remove Employee":
+			removeEmployee();
 			break;
 		case "Update Employee Role":
+			updateEmployeeRole();
 			break;
 		case "Update Employee Manager":
+			updateEmployeeManager();
 			break;
 		case "View All Employees by Department":
+			employeesByDepartment();
 			break;
 		case "View All Employees by Manager":
+			employeesByManager();
 			break;
 		case "View All Employees by Role":
+			employeesByRole();
 			break;
 		case "Add Role":
+			addRole();
 			break;
 		case "View All Roles":
+			viewAllRoles();
 			break;
 		case "Update Role":
+			updateRoles();
 			break;
 		case "Remove Role":
+			removeRole();
 			break;
 		case "Add Department":
+			addDepartment();
 			break;
 		case "View All Departments":
+			viewAllDepartment();
 			break;
 		case "Update Department":
+			updateDepartment();
 			break;
 		case "Remove Department":
+			removeDepartment();
 			break;
 	}
 }
 
 module.exports = {
-	showActions: showActions,
+	showActions,
 };

@@ -26,7 +26,7 @@ const removeRoleQuestions = [
 		prefix: "*".cyan.bold,
 		message: "Select which role do you like to remove",
 		name: "remove",
-		validate: validateNonEmpty,
+		choices: ["test1", "test2", "test3"],
 	},
 ];
 
@@ -36,7 +36,7 @@ const viewAllRolesQuestions = [
 		prefix: "*".cyan.bold,
 		message: "Roles",
 		name: "view",
-		validate: validateNonEmpty,
+		choices: ["test1", "test2", "test3"],
 	},
 ];
 
@@ -46,7 +46,7 @@ const updateRolesQuestions = [
 		prefix: "*".cyan.bold,
 		message: "Select a role to update",
 		name: "update",
-		validate: validateNonEmpty,
+		choices: ["test1", "test2", "test3"],
 	},
 ];
 // ENDS - Roles questions
@@ -77,3 +77,10 @@ async function removeRole() {
 	return info;
 }
 //ENDS - Role prompts
+
+module.exports = {
+	addRole,
+	viewAllRoles,
+	updateRoles,
+	removeRole,
+};

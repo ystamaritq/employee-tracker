@@ -1,9 +1,10 @@
 const inquirer = require("inquirer");
 const { cyan } = require("colors");
 const { validateNonEmpty } = require("./../../utils");
+const Department = require("../../models/Department");
 
 // START - Department questions
-const addDepartment = [
+const addDepartmentQuestions = [
 	{
 		type: "input",
 		prefix: "*".cyan.bold,
@@ -13,7 +14,7 @@ const addDepartment = [
 	},
 ];
 
-const removeDepartment = [
+const removeDepartmentQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -23,7 +24,7 @@ const removeDepartment = [
 	},
 ];
 
-const viewAllDepartments = [
+const viewAllDepartmentsQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -33,7 +34,7 @@ const viewAllDepartments = [
 	},
 ];
 
-const updateDepartment = [
+const updateDepartmentQuestions = [
 	{
 		type: "list",
 		prefix: "*".cyan.bold,
@@ -43,3 +44,37 @@ const updateDepartment = [
 	},
 ];
 // ENDS - Department questions
+
+//START - Department prompts
+
+async function addDepartment() {
+	console.log(` \nEnter Department's Info \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(addDepartmentQuestions);
+	return new Department(null, info.name);
+}
+
+async function viewAllDepartment() {
+	console.log(` \nView all Department \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(viewAllDepartmentsQuestions);
+	return info.view;
+}
+
+async function updateDepartment() {
+	console.log(` \nUpdate Department's Info \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(updateDepartmentQuestions);
+	return new Department(null, info.name);
+}
+
+async function removeDepartment() {
+	console.log(` \nSelect the Department to Remove \n`.cyan.bold.dim.italic);
+	const info = await inquirer.prompt(removeDepartmentQuestions);
+	return console.log("Department Removed");
+}
+//ENDS - Department prompts
+
+module.exports = {
+	addDepartment,
+	viewAllDepartment,
+	updateDepartment,
+	removeDepartment,
+};
