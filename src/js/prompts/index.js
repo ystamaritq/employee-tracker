@@ -25,7 +25,7 @@ const { addRole, viewAllRoles, updateRoles, removeRole } = require("./role");
 const actions = [
 	{
 		type: "list",
-		prefix: "?".cyan.bold,
+		prefix: "\n\n?".cyan.bold,
 		name: "action",
 		message: "What would you like to do?",
 		choices: [
@@ -54,55 +54,55 @@ async function showActions() {
 	const answers = await inquirer.prompt(actions);
 	switch (answers.action) {
 		case "Add Employee":
-			addEmployee();
+			await addEmployee();
 			break;
 		case "View All Employees":
-			viewEmployees();
+			await viewEmployees();
 			break;
 		case "Update Employee":
-			updateEmployee();
+			await updateEmployee();
 			break;
 		case "Remove Employee":
-			removeEmployee();
+			await removeEmployee();
 			break;
 		case "Update Employee Role":
-			updateEmployeeRole();
+			await updateEmployeeRole();
 			break;
 		case "Update Employee Manager":
-			updateEmployeeManager();
+			await updateEmployeeManager();
 			break;
 		case "View All Employees by Department":
-			employeesByDepartment();
+			await employeesByDepartment();
 			break;
 		case "View All Employees by Manager":
-			employeesByManager();
+			await employeesByManager();
 			break;
 		case "View All Employees by Role":
-			employeesByRole();
+			await employeesByRole();
 			break;
 		case "Add Role":
-			addRole();
+			await addRole();
 			break;
 		case "View All Roles":
-			viewAllRoles();
+			await viewAllRoles();
 			break;
 		case "Update Role":
-			updateRoles();
+			await updateRoles();
 			break;
 		case "Remove Role":
-			removeRole();
+			await removeRole();
 			break;
 		case "Add Department":
-			addDepartment();
+			await addDepartment();
 			break;
 		case "View All Departments":
-			viewAllDepartment();
+			await viewAllDepartment();
 			break;
 		case "Update Department":
-			updateDepartment();
+			await updateDepartment();
 			break;
 		case "Remove Department":
-			removeDepartment();
+			await removeDepartment();
 			break;
 	}
 }
