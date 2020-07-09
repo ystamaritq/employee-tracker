@@ -77,3 +77,10 @@ async function removeRole() {
 	return info;
 }
 //ENDS - Role prompts
+
+module.exports = {
+	addRole,
+	viewAllRoles,
+	updateRoles,
+	removeRole,
+};

@@ -14,8 +14,8 @@ const {
 	updateEmployeeRole,
 	updateEmployeeManager,
 } = require("./employee");
-const department_prompts = require("./department");
-const roles_prompts = require("./role");
+const {} = require("./department");
+const { addRole, viewAllRoles, updateRoles, removeRole } = require("./role");
 
 const actions = [
 	{
