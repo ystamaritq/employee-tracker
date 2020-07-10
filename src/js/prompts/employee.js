@@ -6,31 +6,64 @@ const Employee = require("../models/Employee");
 const db = require("../db/employee");
 const deptDb = require("../db/department");
 const roleDb = require("../db/role");
+const employee = require("../db/employee");
 
 // START - Employee questions
-const employeeQuestions = [
-	{
-		type: "input",
-		prefix: "*".cyan.bold,
-		message: "Please enter the employee first name",
-		name: "first_name",
-		validate: validateNonEmpty,
-	},
-	{
-		type: "input",
-		prefix: "*".cyan.bold,
-		message: "Please enter the employee last name",
-		name: "last_name",
-		validate: validateNonEmpty,
-	},
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Please select the employee role",
-		name: "role",
-		choices: choices,
-	},
-];
+async function getEmployeeQuestions(defaults = {}) {
+	const rolesList = await roleDb.readAll();
+	const roles = rolesList.map((r) => ({ name: r.title, value: r.id }));
+	const managerList = await employee.readAll();
+	console.log(managers);
+	const managers = managerList.map((m) => ({
+		name: `|${m.first_name}|${m.last_name}|${m.role_id}`,
+		value: m.id,
+	}));
+
+	const questions = await inquirer.prompt([
+		{
+			type: "input",
+			prefix: "*".cyan.bold,
+			message: "Please enter the employee first name",
+			name: "first_name",
+			default: defaults.name,
+			validate: validateNonEmpty,
+		},
+		{
+			type: "input",
+			prefix: "*".cyan.bold,
+			message: "Please enter the employee last name",
+			name: "last_name",
+			default: defaults.last_name,
+			validate: validateNonEmpty,
+		},
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Please select the employee role",
+			name: "role_id",
+			default: defaults.role_selected,
+			choices: roles,
+		},
+		{
+			type: "confirm",
+			prefix: "*".cyan.bold,
+			message: "Would you like to set a manager?",
+			name: "hasManager",
+			default: false,
+			when: (answers) => managers.length > 0,
+		},
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Please select a manager",
+			name: "manager_id",
+			when: (answers) => answers.hasManager && managers.length > 0,
+			choices: managers,
+		},
+	]);
+
+	return questions;
+}
 
 // ENDS - Employee questions
 
@@ -38,8 +71,16 @@ const employeeQuestions = [
 
 async function addEmployee() {
 	console.log(` \n Enter Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(employeeQuestions);
-	return new Employee(null, info.first_name, info.last_name, info.role, null);
+	const info = await getEmployeeQuestions({});
+	db.create(
+		new Employee(
+			null,
+			info.first_name,
+			info.last_name,
+			info.role_id,
+			info.manager_id
+		)
+	);
 }
 
 async function viewEmployees() {
@@ -55,8 +96,8 @@ async function updateEmployee() {
 		null,
 		info.update_first_name,
 		info.update_last_name,
-		null,
-		null
+		info.role_id,
+		info.manager_id
 	);
 }
 

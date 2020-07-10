@@ -18,7 +18,7 @@ async function getRoleQuestions(defaults = {}) {
 		{
 			type: "input",
 			prefix: "*".cyan.bold,
-			message: `Please enter role title (enter to keep current value)`,
+			message: "Please enter role title",
 			name: "title",
 			default: defaults.title,
 			validate: validateNonEmpty,
@@ -26,7 +26,7 @@ async function getRoleQuestions(defaults = {}) {
 		{
 			type: "input",
 			prefix: "*".cyan.bold,
-			message: "Please enter role salary (enter to keep current value)",
+			message: "Please enter role salary",
 			name: "salary",
 			default: defaults.salary,
 			validate: validateNonEmpty,
@@ -34,7 +34,7 @@ async function getRoleQuestions(defaults = {}) {
 		{
 			type: "list",
 			prefix: "*".cyan.bold,
-			message: "Select a department (enter to keep current value)",
+			message: "Select a department",
 			name: "department_id",
 			default: defaults.department_id,
 			choices: choices,
