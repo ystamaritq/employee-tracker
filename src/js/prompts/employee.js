@@ -84,8 +84,8 @@ async function addEmployee() {
 
 async function viewEmployees() {
 	console.log(` \n Employees List \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(viewEmployeesQuestions);
-	return info.view;
+	const employees = await employee.readAll();
+	console.table(employees);
 }
 
 async function updateEmployee() {
