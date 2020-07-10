@@ -2,13 +2,13 @@ const { showActions } = require("./prompts");
 const { handleError, instructionsMessage } = require("./utils");
 
 async function init() {
-	try {
-		instructionsMessage();
-		while (true) {
+	instructionsMessage();
+	while (true) {
+		try {
 			await showActions();
+		} catch (err) {
+			handleError(err);
 		}
-	} catch (err) {
-		handleError(err);
 	}
 }
 

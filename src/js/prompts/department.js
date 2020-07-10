@@ -1,9 +1,9 @@
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const { cyan } = require("colors");
-const { validateNonEmpty } = require("./../../utils");
-const Department = require("../../models/Department");
-const db = require("../../db/department");
+const { validateNonEmpty } = require("../utils");
+const Department = require("../models/Department");
+const db = require("../db/department");
 
 // START - Department questions
 function getDepartmentQuestions(defaults = {}) {
@@ -62,14 +62,12 @@ async function updateDepartment() {
 		getDepartmentQuestions(selectedDepartment)
 	);
 	db.update(new Department(selectedId, info.name));
-	console.table(`*Success!* Department name updated`);
 }
 
 async function removeDepartment() {
 	console.log(` \nSelect the Department to Remove \n`.cyan.bold.dim.italic);
 	const selectedId = await selectDepartment();
 	db.remove(selectedId);
-	console.log("Department Removed");
 }
 
 async function viewDepartmentById() {

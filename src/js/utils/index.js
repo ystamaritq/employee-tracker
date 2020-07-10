@@ -1,10 +1,14 @@
 const { cyan } = require("colors");
 
-const showErrors = true;
+const showErrors = false;
 
 const handleError = (err) => {
 	if (err) {
-		console.log("There was an error: ".red + err);
+		console.log(
+			"\n\nThere was an error: ".red +
+				(err.message ? err.message : err) +
+				"\n\n"
+		);
 		if (showErrors) throw err;
 	}
 };

@@ -1,14 +1,19 @@
-const connection = require("../connection");
-const Department = require("../../models/Department");
+const connection = require("./connection");
+const Department = require("../models/Department");
+const { handleError } = require("../utils");
 
 /**
  * Creates a new department record
  * @param {Department} department
  */
 function create(department) {
-	connection.query("INSERT INTO department SET ?", {
-		name: department.name,
-	});
+	connection.query(
+		"INSERT INTO department SET ?",
+		{
+			name: department.name,
+		},
+		handleError
+	);
 }
 
 /**
@@ -31,10 +36,14 @@ function readAll() {
  */
 function readOne(id) {
 	return new Promise((respond, reject) => {
-		connection.query("SELECT * FROM department WHERE id = id", (err, res) => {
-			if (err) reject(err);
-			else respond(res);
-		});
+		connection.query(
+			"SELECT * FROM department WHERE id = ?",
+			[id],
+			(err, res) => {
+				if (err) reject(err);
+				else respond(res[0]);
+			}
+		);
 	});
 }
 
@@ -43,14 +52,18 @@ function readOne(id) {
  * @param {Department} department
  */
 function update(department) {
-	connection.query("UPDATE department SET ? WHERE ?", [
-		{
-			name: department.name,
-		},
-		{
-			id: department.id,
-		},
-	]);
+	connection.query(
+		"UPDATE department SET ? WHERE ?",
+		[
+			{
+				name: department.name,
+			},
+			{
+				id: department.id,
+			},
+		],
+		handleError
+	);
 }
 
 /**
@@ -58,7 +71,7 @@ function update(department) {
  * @param {*} id
  */
 function remove(id) {
-	connection.query("DELETE FROM department WHERE id = ?", [id]);
+	connection.query("DELETE FROM department WHERE id = ?", [id], handleError);
 }
 
 module.exports = {

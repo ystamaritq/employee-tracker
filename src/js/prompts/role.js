@@ -1,72 +1,67 @@
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const { cyan } = require("colors");
-const { validateNonEmpty } = require("./../../utils");
-const db = require("../../db/role");
-const deptDb = require("../../db/department");
-const Role = require("../../models/Role");
+const { validateNonEmpty } = require("../utils");
+const db = require("../db/role");
+const deptDb = require("../db/department");
+const Role = require("../models/Role");
 
 // START - Roles questions
-async function getRoleQuestions() {
+async function getRoleQuestions(defaults = {}) {
 	const departments = await deptDb.readAll();
 	const choices = departments.map((d) => ({
 		name: `|${d.id}| ${d.name}|`,
 		value: d.id,
 	}));
-	return inquirer.prompt([
+
+	const questions = await inquirer.prompt([
 		{
 			type: "input",
 			prefix: "*".cyan.bold,
-			message: "Please enter role title",
+			message: `Please enter role title (enter to keep current value)`,
 			name: "title",
+			default: defaults.title,
 			validate: validateNonEmpty,
 		},
 		{
 			type: "input",
 			prefix: "*".cyan.bold,
-			message: "Please enter role salary",
+			message: "Please enter role salary (enter to keep current value)",
 			name: "salary",
+			default: defaults.salary,
 			validate: validateNonEmpty,
 		},
 		{
 			type: "list",
 			prefix: "*".cyan.bold,
-			message: "Select a department",
+			message: "Select a department (enter to keep current value)",
 			name: "department_id",
+			default: defaults.department_id,
 			choices: choices,
 		},
 	]);
+
+	return questions;
 }
 
-const removeRoleQuestions = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Select which role do you like to remove",
-		name: "remove",
-		choices: ["test1", "test2", "test3"],
-	},
-];
+async function selectedRole() {
+	const roles = await db.readAll();
+	const choices = roles.map((r) => ({
+		name: `${r.id} | ${r.title} | ${r.salary} | ${r.department_id}`,
+		value: r.id,
+	}));
+	const answers = await inquirer.prompt([
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Select a role to update",
+			name: "selected",
+			choices: choices,
+		},
+	]);
+	return answers.selected;
+}
 
-const viewAllRolesQuestions = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Roles",
-		name: "view",
-		choices: ["test1", "test2", "test3"],
-	},
-];
-
-const updateRolesQuestions = [
-	{
-		type: "list",
-		prefix: "*".cyan.bold,
-		message: "Select a role to update",
-		name: "update",
-		choices: ["test1", "test2", "test3"],
-	},
-];
 // ENDS - Roles questions
 
 //START - Role prompts
@@ -84,9 +79,19 @@ async function viewAllRoles() {
 }
 
 async function updateRoles() {
+	console.log(` \n Select Role's to Update \n`.cyan.bold.dim.italic);
+
+	const selectedId = await selectedRole();
+
+	const selectedRoleInfo = await db.readOne(selectedId);
+
 	console.log(` \nUpdate Role's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(updateRolesQuestions);
-	return info;
+
+	const answers = await getRoleQuestions(selectedRoleInfo);
+
+	db.update(
+		new Role(selectedId, answers.title, answers.salary, answers.department_id)
+	);
 }
 
 async function removeRole() {
