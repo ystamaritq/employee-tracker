@@ -13,7 +13,6 @@ async function getEmployeeQuestions(defaults = {}) {
 	const rolesList = await roleDb.readAll();
 	const roles = rolesList.map((r) => ({ name: r.title, value: r.id }));
 	const managerList = await employee.readAll();
-	console.log(managers);
 	const managers = managerList.map((m) => ({
 		name: `|${m.first_name}|${m.last_name}|${m.role_id}`,
 		value: m.id,
