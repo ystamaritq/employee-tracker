@@ -9,7 +9,10 @@ const Role = require("../../models/Role");
 // START - Roles questions
 async function getRoleQuestions() {
 	const departments = await deptDb.readAll();
-	const choices = departments.map((d) => ({ name: d.name, value: d.id }));
+	const choices = departments.map((d) => ({
+		name: `|${d.id}| ${d.name}|`,
+		value: d.id,
+	}));
 	return inquirer.prompt([
 		{
 			type: "input",
