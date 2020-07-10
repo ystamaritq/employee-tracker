@@ -2,24 +2,38 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 const { cyan } = require("colors");
 const { validateNonEmpty } = require("./../../utils");
+const db = require("../../db/role");
+const deptDb = require("../../db/department");
+const Role = require("../../models/Role");
 
 // START - Roles questions
-const addRoleQuestions = [
-	{
-		type: "input",
-		prefix: "*".cyan.bold,
-		message: "Please add role title",
-		name: "title",
-		validate: validateNonEmpty,
-	},
-	{
-		type: "number",
-		prefix: "*".cyan.bold,
-		message: "Please enter role salary",
-		name: "salary",
-		validate: validateNonEmpty,
-	},
-];
+async function getRoleQuestions() {
+	const departments = await deptDb.readAll();
+	const choices = departments.map((d) => ({ name: d.name, value: d.id }));
+	return inquirer.prompt([
+		{
+			type: "input",
+			prefix: "*".cyan.bold,
+			message: "Please enter role title",
+			name: "title",
+			validate: validateNonEmpty,
+		},
+		{
+			type: "input",
+			prefix: "*".cyan.bold,
+			message: "Please enter role salary",
+			name: "salary",
+			validate: validateNonEmpty,
+		},
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Select a department",
+			name: "department_id",
+			choices: choices,
+		},
+	]);
+}
 
 const removeRoleQuestions = [
 	{
@@ -56,8 +70,8 @@ const updateRolesQuestions = [
 
 async function addRole() {
 	console.log(` \nEnter Role's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(addRoleQuestions);
-	return info.add;
+	const info = await getRoleQuestions();
+	db.create(new Role(null, info.title, info.salary, info.department_id));
 }
 
 async function viewAllRoles() {
