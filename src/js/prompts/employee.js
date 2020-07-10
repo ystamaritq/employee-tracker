@@ -3,6 +3,7 @@ const cTable = require("console.table");
 const { cyan } = require("colors");
 const { validateNonEmpty } = require("../utils");
 const Employee = require("../models/Employee");
+const db = require("../db/employee");
 
 // START - Employee questions
 const addEmployeeQuestions = [
