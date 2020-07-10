@@ -14,8 +14,8 @@ function create(role) {
 }
 
 /**
- * Reads all departments
- * @returns list of departments
+ * Reads all roles
+ * @returns list of roles
  */
 function readAll() {
 	return new Promise((respond, reject) => {
