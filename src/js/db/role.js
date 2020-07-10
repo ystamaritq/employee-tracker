@@ -66,9 +66,18 @@ function update(role) {
 	);
 }
 
+/**
+ * Deletes a role by its id
+ * @param {*} id
+ */
+function remove(id) {
+	connection.query("DELETE FROM role WHERE id = ?", [id], handleError);
+}
+
 module.exports = {
 	create,
 	readAll,
 	update,
 	readOne,
+	remove,
 };

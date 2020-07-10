@@ -54,7 +54,7 @@ async function selectedRole() {
 		{
 			type: "list",
 			prefix: "*".cyan.bold,
-			message: "Select a role to update",
+			message: "Roles",
 			name: "selected",
 			choices: choices,
 		},
@@ -96,8 +96,8 @@ async function updateRoles() {
 
 async function removeRole() {
 	console.log(` \nSelect the Role to Remove \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(removeRoleQuestions);
-	return info;
+	const selectedRoleId = await selectedRole();
+	db.remove(selectedRoleId);
 }
 //ENDS - Role prompts
 
