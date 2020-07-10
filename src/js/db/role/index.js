@@ -13,6 +13,20 @@ function create(role) {
 	});
 }
 
+/**
+ * Reads all departments
+ * @returns list of departments
+ */
+function readAll() {
+	return new Promise((respond, reject) => {
+		connection.query("SELECT * FROM role", (err, res) => {
+			if (err) reject(err);
+			else respond(res);
+		});
+	});
+}
+
 module.exports = {
 	create,
+	readAll,
 };

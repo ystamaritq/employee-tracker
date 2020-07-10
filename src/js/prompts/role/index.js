@@ -79,8 +79,8 @@ async function addRole() {
 
 async function viewAllRoles() {
 	console.log(` \nView all Roles \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(viewAllRolesQuestions);
-	return info;
+	const roles = await db.readAll();
+	console.table(roles);
 }
 
 async function updateRoles() {
