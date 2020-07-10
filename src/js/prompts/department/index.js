@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const cTable = require("console.table");
 const { cyan } = require("colors");
 const { validateNonEmpty } = require("./../../utils");
 const Department = require("../../models/Department");
@@ -41,16 +42,19 @@ async function addDepartment() {
 	console.log(` \nEnter Department's Info \n`.cyan.bold.dim.italic);
 	const info = await inquirer.prompt(getDepartmentQuestions());
 	db.create(new Department(null, info.name));
+	console.log(`Department ${info.name} has been added`);
 }
 
 async function viewAllDepartment() {
 	const departments = await db.readAll();
 	console.log(` \nDEPARTMENTS \n`.cyan.bold.dim.italic);
-	console.log(departments);
+	console.table(departments);
 }
 
 async function updateDepartment() {
-	console.log(` \nSelect the Department to Update \n`.cyan.bold.dim.italic);
+	console.log(
+		` \nSelect the Department to Update the Name \n`.cyan.bold.dim.italic
+	);
 	const selectedId = await selectDepartment();
 	const selectedDepartment = await db.readOne(selectedId.selected);
 	console.log(` \nUpdate Department's Info \n`.cyan.bold.dim.italic);
@@ -58,13 +62,22 @@ async function updateDepartment() {
 		getDepartmentQuestions(selectedDepartment)
 	);
 	db.update(new Department(selectedId, info.name));
+	console.table(`*Success!* Department name updated`);
 }
 
 async function removeDepartment() {
 	console.log(` \nSelect the Department to Remove \n`.cyan.bold.dim.italic);
 	const selectedId = await selectDepartment();
 	db.remove(selectedId);
+	console.log("Department Removed");
 }
+
+async function viewDepartmentById() {
+	console.log(` \nSelect the Department to View \n`.cyan.bold.dim.italic);
+	const selectedId = await selectDepartment();
+	db.readOne(selectedId);
+}
+
 //ENDS - Department prompts
 
 module.exports = {
@@ -72,4 +85,5 @@ module.exports = {
 	viewAllDepartment,
 	updateDepartment,
 	removeDepartment,
+	viewDepartmentById,
 };
