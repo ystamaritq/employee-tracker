@@ -29,19 +29,37 @@ function readAll() {
  * @param {String} id
  * @returns department
  */
-async function readOne(id) {}
+function readOne(id) {
+	return new Promise((respond, reject) => {
+		connection.query("SELECT * FROM department WHERE id = id", (err, res) => {
+			if (err) reject(err);
+			else respond(res);
+		});
+	});
+}
 
 /**
  * Updates the given department
  * @param {Department} department
  */
-function update(department) {}
+function update(department) {
+	connection.query("UPDATE department SET ? WHERE ?", [
+		{
+			name: department.name,
+		},
+		{
+			id: department.id,
+		},
+	]);
+}
 
 /**
  * Deletes a department by its id
  * @param {*} id
  */
-function remove(id) {}
+function remove(id) {
+	connection.query("DELETE FROM department WHERE id = ?", [id]);
+}
 
 module.exports = {
 	create,
