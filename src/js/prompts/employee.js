@@ -161,6 +161,12 @@ async function updateEmployee() {
 	);
 }
 
+async function getAllManagers() {
+	console.log(` \n Managers \n`.cyan.bold.dim.italic);
+	const managers = await employee.readAllManagers();
+	console.table(managers);
+}
+
 async function removeEmployee() {
 	console.log(` \n Select Employee to Remove \n`.cyan.bold.dim.italic);
 	const selectedId = await selectedEmployee();
@@ -209,4 +215,5 @@ module.exports = {
 	employeesByRole,
 	updateEmployeeManager,
 	budgetByDepartment,
+	getAllManagers,
 };

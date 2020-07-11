@@ -107,6 +107,20 @@ function readAllByManager(manager_id) {
 	});
 }
 
+function readAllManagers() {
+	return new Promise((respond, reject) => {
+		connection.query(
+			"SELECT CONCAT(m.first_name, ' ', m.last_name) Managers " +
+				"FROM employee e, employee m " +
+				"WHERE e.manager_id = m.id",
+			(err, res) => {
+				if (err) reject(err);
+				else respond(res);
+			}
+		);
+	});
+}
+
 function readAllByRole(role_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
@@ -152,7 +166,7 @@ function readAllByDepartment(department_id) {
 function budgetByDepartment(department_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT d.id, d.name, sum(r.salary) " +
+			"SELECT d.id, d.name, sum(r.salary), COUNT(e.id) count_employee " +
 				"FROM employee e " +
 				"LEFT JOIN role r " +
 				"ON e.role_id = r.id " +
@@ -178,4 +192,5 @@ module.exports = {
 	readAllByRole,
 	readAllByDepartment,
 	budgetByDepartment,
+	readAllManagers,
 };

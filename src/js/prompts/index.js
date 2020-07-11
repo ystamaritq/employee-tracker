@@ -13,6 +13,7 @@ const {
 	employeesByRole,
 	updateEmployeeManager,
 	budgetByDepartment,
+	getAllManagers,
 } = require("./employee");
 const {
 	addDepartment,
@@ -38,6 +39,7 @@ const actions = [
 			"View All Employees by Manager",
 			"View All Employees by Role",
 			"View Budget by Department",
+			"View All Managers",
 			"Add Role",
 			"View All Roles",
 			"Update Role",
@@ -79,6 +81,9 @@ async function showActions() {
 			break;
 		case "View Budget by Department":
 			await budgetByDepartment();
+			break;
+		case "View All Managers":
+			await getAllManagers();
 			break;
 		case "Add Role":
 			await addRole();
