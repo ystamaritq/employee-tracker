@@ -128,7 +128,7 @@ async function addEmployee() {
 	const roles = await roleDb.readAll();
 	if (roles.length == 0) {
 		console.log(
-			` \nWe can't create an employee till we have at least one role  \n`.red
+			`\nWe can't create an employee till we have at least one role  \n`.red
 		);
 		return;
 	}
