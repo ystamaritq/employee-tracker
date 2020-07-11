@@ -81,10 +81,23 @@ function remove(id) {
 	connection.query("DELETE FROM employee WHERE id = ?", [id], handleError);
 }
 
+/**
+ * Display the employees by role
+ * @param {*} role_name
+ * @returns list of employees by role
+ */
+function employeesByRole(role_name) {
+	connection.query(
+		"SELECT * FROM employee LEFT JOIN role ON employee.role_id = role.id ORDER BY employee.first_name",
+		handleError
+	);
+}
+
 module.exports = {
 	create,
 	readAll,
 	readOne,
 	update,
 	remove,
+	employeesByRole,
 };

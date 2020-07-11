@@ -143,7 +143,7 @@ async function employeesByManager() {
 	//TODOs
 }
 
-async function employeesByRole() {
+async function getEmployeesByRole() {
 	console.log(` \n Employees by Role \n`.cyan.bold.dim.italic);
 	//TODOs
 }
@@ -163,7 +163,7 @@ module.exports = {
 	removeEmployee,
 	employeesByDepartment,
 	employeesByManager,
-	employeesByRole,
+	getEmployeesByRole,
 	updateEmployeeRole,
 	updateEmployeeManager,
 };
