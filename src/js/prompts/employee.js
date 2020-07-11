@@ -24,7 +24,7 @@ async function getEmployeeQuestions(defaults = {}) {
 			prefix: "*".cyan.bold,
 			message: "Please enter the employee first name",
 			name: "first_name",
-			default: defaults.name,
+			default: defaults.first_name,
 			validate: validateNonEmpty,
 		},
 		{
@@ -40,7 +40,7 @@ async function getEmployeeQuestions(defaults = {}) {
 			prefix: "*".cyan.bold,
 			message: "Please select the employee role",
 			name: "role_id",
-			default: defaults.role_selected,
+			default: defaults.role_id,
 			choices: roles,
 		},
 		{
@@ -56,12 +56,31 @@ async function getEmployeeQuestions(defaults = {}) {
 			prefix: "*".cyan.bold,
 			message: "Please select a manager",
 			name: "manager_id",
+			default: defaults.manager_id,
 			when: (answers) => answers.hasManager && managers.length > 0,
 			choices: managers,
 		},
 	]);
 
 	return questions;
+}
+
+async function selectedEmployee() {
+	const employees = await employee.readAll();
+	const choices = employees.map((e) => ({
+		name: `${e.id} | ${e.first_name} | ${e.last_name} | ${e.role_id}`,
+		value: e.id,
+	}));
+	const answers = await inquirer.prompt([
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Employees",
+			name: "selected",
+			choices: choices,
+		},
+	]);
+	return answers.selected;
 }
 
 // ENDS - Employee questions
@@ -89,31 +108,44 @@ async function viewEmployees() {
 }
 
 async function updateEmployee() {
+	const employeeId = await selectedEmployee();
+
 	console.log(` \n Update Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(updateEmployeeQuestions);
-	return new Employee(
-		null,
-		info.update_first_name,
-		info.update_last_name,
-		info.role_id,
-		info.manager_id
+
+	const employeeInfo = await db.readOne(employeeId);
+
+	const info = await getEmployeeQuestions(employeeInfo);
+
+	db.update(
+		new Employee(
+			employeeId,
+			info.first_name,
+			info.last_name,
+			info.role_id,
+			info.manager_id
+		)
 	);
 }
 
 async function removeEmployee() {
-	console.log(` \n Remove Employee \n`.cyan.bold.dim.italic);
+	console.log(` \n Select Employee to Remove \n`.cyan.bold.dim.italic);
+	const selectedId = await selectedEmployee();
+	db.remove(selectedId);
 }
 
 async function employeesByDepartment() {
 	console.log(` \n Employees by Department \n`.cyan.bold.dim.italic);
+	//TODOs
 }
 
 async function employeesByManager() {
 	console.log(` \n Employees by Manager \n`.cyan.bold.dim.italic);
+	//TODOs
 }
 
 async function employeesByRole() {
 	console.log(` \n Employees by Role \n`.cyan.bold.dim.italic);
+	//TODOs
 }
 
 async function updateEmployeeRole() {

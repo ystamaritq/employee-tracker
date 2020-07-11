@@ -55,6 +55,7 @@ function readOne(id) {
  * @param {Employee} employee
  */
 function update(employee) {
+	console.log(employee);
 	connection.query(
 		"UPDATE employee SET ? WHERE ?",
 		[
