@@ -107,6 +107,20 @@ function readAllByManager(manager_id) {
 	});
 }
 
+function readAllManagers() {
+	return new Promise((respond, reject) => {
+		connection.query(
+			"SELECT CONCAT(m.first_name, ' ', m.last_name) Managers " +
+				"FROM employee e, employee m " +
+				"WHERE e.manager_id = m.id",
+			(err, res) => {
+				if (err) reject(err);
+				else respond(res);
+			}
+		);
+	});
+}
+
 function readAllByRole(role_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
@@ -178,4 +192,5 @@ module.exports = {
 	readAllByRole,
 	readAllByDepartment,
 	budgetByDepartment,
+	readAllManagers,
 };
