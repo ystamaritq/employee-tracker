@@ -15,14 +15,14 @@ async function getEmployeeQuestions(defaults = {}) {
 	const roles = rolesList.map((r) => ({ name: r.title, value: r.id }));
 	const managerList = await employee.readAll();
 	const managers = managerList.map((m) => ({
-		name: `|${m.first_name}|${m.last_name}|${m.role_id}`,
+		name: `|${m.first_name}|${m.last_name}|`,
 		value: m.id,
 	}));
 
 	const questions = await inquirer.prompt([
 		{
 			type: "input",
-			prefix: "*".cyan.bold,
+			prefix: "".cyan.bold,
 			message: "Please enter the employee first name",
 			name: "first_name",
 			default: defaults.first_name,
@@ -30,7 +30,7 @@ async function getEmployeeQuestions(defaults = {}) {
 		},
 		{
 			type: "input",
-			prefix: "*".cyan.bold,
+			prefix: "".cyan.bold,
 			message: "Please enter the employee last name",
 			name: "last_name",
 			default: defaults.last_name,
@@ -38,7 +38,7 @@ async function getEmployeeQuestions(defaults = {}) {
 		},
 		{
 			type: "list",
-			prefix: "*".cyan.bold,
+			prefix: "".cyan.bold,
 			message: "Please select the employee role",
 			name: "role_id",
 			default: defaults.role_id,
@@ -46,7 +46,7 @@ async function getEmployeeQuestions(defaults = {}) {
 		},
 		{
 			type: "confirm",
-			prefix: "*".cyan.bold,
+			prefix: "".cyan.bold,
 			message: "Would you like to set a manager?",
 			name: "hasManager",
 			default: false,
@@ -54,8 +54,8 @@ async function getEmployeeQuestions(defaults = {}) {
 		},
 		{
 			type: "list",
-			prefix: "*".cyan.bold,
-			message: "Please select a manager",
+			prefix: "".cyan.bold,
+			message: " \n Please select a manager \n",
 			name: "manager_id",
 			default: defaults.manager_id,
 			when: (answers) => answers.hasManager && managers.length > 0,
@@ -69,14 +69,14 @@ async function getEmployeeQuestions(defaults = {}) {
 async function selectedEmployee() {
 	const employees = await employee.readAll();
 	const choices = employees.map((e) => ({
-		name: `${e.id} | ${e.first_name} | ${e.last_name} | ${e.role_id}`,
+		name: `${e.id} | ${e.first_name} | ${e.last_name}`,
 		value: e.id,
 	}));
 	const answers = await inquirer.prompt([
 		{
 			type: "list",
-			prefix: "*".cyan.bold,
-			message: "Employees",
+			prefix: "".cyan.bold,
+			message: `\n Select an employee \n`,
 			name: "selected",
 			choices: choices,
 		},
