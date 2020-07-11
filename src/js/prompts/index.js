@@ -11,7 +11,6 @@ const {
 	employeesByDepartment,
 	employeesByManager,
 	employeesByRole,
-	updateEmployeeManager,
 	budgetByDepartment,
 	getAllManagers,
 } = require("./employee");
@@ -34,7 +33,6 @@ const actions = [
 			"View All Employees",
 			"Update Employee",
 			"Remove Employee",
-			"Update Employee By Manager",
 			"View All Employees by Department",
 			"View All Employees by Manager",
 			"View All Employees by Role",
@@ -66,9 +64,6 @@ async function showActions() {
 			break;
 		case "Remove Employee":
 			await removeEmployee();
-			break;
-		case "Update Employee By Manager":
-			await updateEmployeeManager();
 			break;
 		case "View All Employees by Department":
 			await employeesByDepartment();
