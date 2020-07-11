@@ -11,8 +11,8 @@ const {
 	employeesByDepartment,
 	employeesByManager,
 	employeesByRole,
-	updateEmployeeRole,
 	updateEmployeeManager,
+	budgetByDepartment,
 } = require("./employee");
 const {
 	addDepartment,
@@ -33,11 +33,11 @@ const actions = [
 			"View All Employees",
 			"Update Employee",
 			"Remove Employee",
-			"Update Employee Role",
-			"Update Employee Manager",
+			"Update Employee By Manager",
 			"View All Employees by Department",
 			"View All Employees by Manager",
 			"View All Employees by Role",
+			"View Budget by Department",
 			"Add Role",
 			"View All Roles",
 			"Update Role",
@@ -65,10 +65,7 @@ async function showActions() {
 		case "Remove Employee":
 			await removeEmployee();
 			break;
-		case "Update Employee Role":
-			await updateEmployeeRole();
-			break;
-		case "Update Employee Manager":
+		case "Update Employee By Manager":
 			await updateEmployeeManager();
 			break;
 		case "View All Employees by Department":
@@ -79,6 +76,9 @@ async function showActions() {
 			break;
 		case "View All Employees by Role":
 			await employeesByRole();
+			break;
+		case "View Budget by Department":
+			await budgetByDepartment();
 			break;
 		case "Add Role":
 			await addRole();
