@@ -64,6 +64,24 @@ async function getEmployeeQuestions(defaults = {}) {
 	return questions;
 }
 
+async function selectedEmployee() {
+	const employees = await employee.readAll();
+	const choices = employees.map((e) => ({
+		name: `${e.id} | ${e.first_name} | ${e.last_name} | ${e.role_id}`,
+		value: e.id,
+	}));
+	const answers = await inquirer.prompt([
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Employees",
+			name: "selected",
+			choices: choices,
+		},
+	]);
+	return answers.selected;
+}
+
 // ENDS - Employee questions
 
 // START - Functions
@@ -89,8 +107,10 @@ async function viewEmployees() {
 }
 
 async function updateEmployee() {
+	const employeeId = await selectedEmployee();
+
 	console.log(` \n Update Employee's Info \n`.cyan.bold.dim.italic);
-	const info = await inquirer.prompt(updateEmployeeQuestions);
+
 	return new Employee(
 		null,
 		info.update_first_name,
@@ -101,7 +121,9 @@ async function updateEmployee() {
 }
 
 async function removeEmployee() {
-	console.log(` \n Remove Employee \n`.cyan.bold.dim.italic);
+	console.log(` \n Select Employee to Remove \n`.cyan.bold.dim.italic);
+	const selectedId = await selectedEmployee();
+	db.remove(selectedId);
 }
 
 async function employeesByDepartment() {
