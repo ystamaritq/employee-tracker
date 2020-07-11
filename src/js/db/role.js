@@ -24,13 +24,15 @@ function create(role) {
  */
 function readAll() {
 	return new Promise((respond, reject) => {
-		connection.query("SELECT * FROM role", (err, res) => {
-			if (err) reject(err);
-			else respond(res);
-		});
+		connection.query(
+			"SELECT r.id, r.title, r.salary, d.name department FROM role r LEFT JOIN department d ON r.department_id = d.id",
+			(err, res) => {
+				if (err) reject(err);
+				else respond(res);
+			}
+		);
 	});
 }
-
 /**
  * Reads a role by its id
  * @param {INT} id

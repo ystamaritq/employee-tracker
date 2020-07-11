@@ -6,6 +6,7 @@ const Employee = require("../models/Employee");
 const db = require("../db/employee");
 const deptDb = require("../db/department");
 const roleDb = require("../db/role");
+const departmentDb = require("../db/department");
 const employee = require("../db/employee");
 
 // START - Employee questions
@@ -83,6 +84,39 @@ async function selectedEmployee() {
 	return answers.selected;
 }
 
+async function selectedRole() {
+	const rolesList = await roleDb.readAll();
+	const roles = rolesList.map((r) => ({ name: r.title, value: r.id }));
+	const answers = await inquirer.prompt([
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Please select a role",
+			name: "selected",
+			choices: roles,
+		},
+	]);
+	return answers.selected;
+}
+
+async function selectedDepartment() {
+	const departmentList = await departmentDb.readAll();
+	const departments = departmentList.map((d) => ({
+		name: d.name,
+		value: d.id,
+	}));
+	const answers = await inquirer.prompt([
+		{
+			type: "list",
+			prefix: "*".cyan.bold,
+			message: "Please select a department",
+			name: "selected",
+			choices: departments,
+		},
+	]);
+	return answers.selected;
+}
+
 // ENDS - Employee questions
 
 // START - Functions
@@ -135,21 +169,30 @@ async function removeEmployee() {
 
 async function employeesByDepartment() {
 	console.log(` \n Employees by Department \n`.cyan.bold.dim.italic);
-	//TODOs
+	const selectedId = await selectedDepartment();
+	const employees = await employee.readAllByDepartment(selectedId);
+	console.table(employees);
+}
+
+async function budgetByDepartment() {
+	console.log(` \n Budget by Department \n`.cyan.bold.dim.italic);
+	const selectedId = await selectedDepartment();
+	const budget = await employee.budgetByDepartment(selectedId);
+	console.table(budget);
 }
 
 async function employeesByManager() {
 	console.log(` \n Employees by Manager \n`.cyan.bold.dim.italic);
-	//TODOs
+	const selectedId = await selectedEmployee();
+	const employees = await employee.readAllByManager(selectedId);
+	console.table(employees);
 }
 
 async function employeesByRole() {
 	console.log(` \n Employees by Role \n`.cyan.bold.dim.italic);
-	//TODOs
-}
-
-async function updateEmployeeRole() {
-	console.log(` \n Update Employee's Role \n`.cyan.bold.dim.italic);
+	const selectedId = await selectedRole();
+	const employees = await employee.readAllByRole(selectedId);
+	console.table(employees);
 }
 
 async function updateEmployeeManager() {
@@ -164,6 +207,6 @@ module.exports = {
 	employeesByDepartment,
 	employeesByManager,
 	employeesByRole,
-	updateEmployeeRole,
 	updateEmployeeManager,
+	budgetByDepartment,
 };
