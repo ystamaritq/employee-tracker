@@ -152,7 +152,7 @@ function readAllByDepartment(department_id) {
 function budgetByDepartment(department_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT d.id, d.name, sum(r.salary) " +
+			"SELECT d.id, d.name, sum(r.salary), COUNT(e.id) count_employee " +
 				"FROM employee e " +
 				"LEFT JOIN role r " +
 				"ON e.role_id = r.id " +
