@@ -27,7 +27,7 @@ function create(employee) {
 function readAll() {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(m.first_name, ' ', m.last_name) manager " +
+			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(ifnull(m.first_name, ''), ' ', ifnull(m.last_name, '')) manager " +
 				"FROM employee e " +
 				"LEFT JOIN employee m " +
 				"ON e.manager_id = m.id " +
@@ -66,7 +66,6 @@ function readOne(id) {
  * @param {Employee} employee
  */
 function update(employee) {
-	console.log(employee);
 	connection.query(
 		"UPDATE employee SET ? WHERE ?",
 		[
@@ -95,7 +94,7 @@ function remove(id) {
 function readAllByManager(manager_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(m.first_name, ' ', m.last_name) manager " +
+			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(ifnull(m.first_name, ''), ' ', ifnull(m.last_name, '')) manager " +
 				"FROM employee e, employee m, role r, department d " +
 				"WHERE e.manager_id = m.id AND m.id = ? AND e.role_id = r.id AND r.department_id = d.id",
 			[manager_id],
@@ -110,8 +109,14 @@ function readAllByManager(manager_id) {
 function readAllManagers() {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT CONCAT(m.first_name, ' ', m.last_name) Managers " +
-				"FROM employee e, employee m " +
+			"SELECT DISTINCT CONCAT(m.first_name, ' ', m.last_name) name,  d.name department, r.title role " +
+				"FROM employee e " +
+				"LEFT JOIN employee m " +
+				"ON e.manager_id = m.id " +
+				"LEFT JOIN role r " +
+				"ON m.role_id = r.id " +
+				"LEFT JOIN department d " +
+				"ON r.department_id = d.id " +
 				"WHERE e.manager_id = m.id",
 			(err, res) => {
 				if (err) reject(err);
@@ -124,7 +129,7 @@ function readAllManagers() {
 function readAllByRole(role_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(m.first_name, ' ', m.last_name) manager " +
+			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(ifnull(m.first_name, ''), ' ', ifnull(m.last_name, '')) manager " +
 				"FROM employee e " +
 				"LEFT JOIN employee m " +
 				"ON e.manager_id = m.id " +
@@ -145,7 +150,7 @@ function readAllByRole(role_id) {
 function readAllByDepartment(department_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(m.first_name, ' ', m.last_name) manager " +
+			"SELECT e.id, e.first_name, e.last_name, r.title role, r.salary, d.name department, CONCAT(ifnull(m.first_name, ''), ' ', ifnull(m.last_name, '')) manager " +
 				"FROM employee e " +
 				"LEFT JOIN employee m " +
 				"ON e.manager_id = m.id " +
@@ -166,7 +171,7 @@ function readAllByDepartment(department_id) {
 function budgetByDepartment(department_id) {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT d.id, d.name, sum(r.salary), COUNT(e.id) count_employee " +
+			"SELECT d.id, d.name, sum(r.salary) total_salary, COUNT(e.id) employee_count " +
 				"FROM employee e " +
 				"LEFT JOIN role r " +
 				"ON e.role_id = r.id " +

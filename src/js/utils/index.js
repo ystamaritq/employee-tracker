@@ -33,8 +33,14 @@ function validateNonEmpty(input) {
 	return !input || input === "" ? "Invalid input" : true;
 }
 
+function validateDecimal(input) {
+	const re = /^[1-9]\d*(\.\d+)?$/;
+	return !input || !re.test(input) ? "Invalid decimal" : true;
+}
+
 module.exports = {
 	handleError,
 	instructionsMessage,
 	validateNonEmpty,
+	validateDecimal,
 };

@@ -15,7 +15,7 @@ async function getEmployeeQuestions(defaults = {}) {
 	const roles = rolesList.map((r) => ({ name: r.title, value: r.id }));
 	const managerList = await employee.readAll();
 	const managers = managerList.map((m) => ({
-		name: `|${m.first_name}|${m.last_name}|${m.role_id}`,
+		name: `|${m.first_name}|${m.last_name}|`,
 		value: m.id,
 	}));
 
@@ -55,7 +55,7 @@ async function getEmployeeQuestions(defaults = {}) {
 		{
 			type: "list",
 			prefix: "*".cyan.bold,
-			message: "Please select a manager",
+			message: "Please select a manager \n",
 			name: "manager_id",
 			default: defaults.manager_id,
 			when: (answers) => answers.hasManager && managers.length > 0,
@@ -69,14 +69,14 @@ async function getEmployeeQuestions(defaults = {}) {
 async function selectedEmployee() {
 	const employees = await employee.readAll();
 	const choices = employees.map((e) => ({
-		name: `${e.id} | ${e.first_name} | ${e.last_name} | ${e.role_id}`,
+		name: `${e.id} | ${e.first_name} ${e.last_name} | ${e.department} | ${e.role}`,
 		value: e.id,
 	}));
 	const answers = await inquirer.prompt([
 		{
 			type: "list",
 			prefix: "*".cyan.bold,
-			message: "Employees",
+			message: `Select an employee \n`,
 			name: "selected",
 			choices: choices,
 		},
@@ -86,7 +86,10 @@ async function selectedEmployee() {
 
 async function selectedRole() {
 	const rolesList = await roleDb.readAll();
-	const roles = rolesList.map((r) => ({ name: r.title, value: r.id }));
+	const roles = rolesList.map((r) => ({
+		name: `${r.title} -- ${r.department}`,
+		value: r.id,
+	}));
 	const answers = await inquirer.prompt([
 		{
 			type: "list",
@@ -122,6 +125,14 @@ async function selectedDepartment() {
 // START - Functions
 
 async function addEmployee() {
+	const roles = await roleDb.readAll();
+	if (roles.length == 0) {
+		console.log(
+			`\nWe can't create an employee till we have at least one role  \n`.red
+		);
+		return;
+	}
+
 	console.log(` \n Enter Employee's Info \n`.cyan.bold.dim.italic);
 	const info = await getEmployeeQuestions({});
 	db.create(

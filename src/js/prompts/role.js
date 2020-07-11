@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const cTable = require("console.table");
-const { cyan } = require("colors");
-const { validateNonEmpty } = require("../utils");
+const { cyan, red } = require("colors");
+const { validateNonEmpty, validateDecimal } = require("../utils");
 const db = require("../db/role");
 const deptDb = require("../db/department");
 const Role = require("../models/Role");
@@ -29,7 +29,7 @@ async function getRoleQuestions(defaults = {}) {
 			message: "Please enter role salary",
 			name: "salary",
 			default: defaults.salary,
-			validate: validateNonEmpty,
+			validate: validateDecimal,
 		},
 		{
 			type: "list",
@@ -47,7 +47,7 @@ async function getRoleQuestions(defaults = {}) {
 async function selectedRole() {
 	const roles = await db.readAll();
 	const choices = roles.map((r) => ({
-		name: `${r.id} | ${r.title} | ${r.salary} | ${r.department_id}`,
+		name: `${r.id} | ${r.title} | ${r.salary} | ${r.department}`,
 		value: r.id,
 	}));
 	const answers = await inquirer.prompt([
@@ -67,6 +67,13 @@ async function selectedRole() {
 //START - Role prompts
 
 async function addRole() {
+	const departments = await deptDb.readAll();
+	if (departments.length == 0) {
+		console.log(
+			` \nWe can't create roles till we have at least one department  \n`.red
+		);
+		return;
+	}
 	console.log(` \nEnter Role's Info \n`.cyan.bold.dim.italic);
 	const info = await getRoleQuestions();
 	db.create(new Role(null, info.title, info.salary, info.department_id));
