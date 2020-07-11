@@ -25,7 +25,7 @@ function create(role) {
 function readAll() {
 	return new Promise((respond, reject) => {
 		connection.query(
-			"SELECT role.id, role.title, role.salary, department.name FROM role LEFT JOIN department ON department_id = department.id",
+			"SELECT r.id, r.title, r.salary, d.name department FROM role r LEFT JOIN department d ON r.department_id = d.id",
 			(err, res) => {
 				if (err) reject(err);
 				else respond(res);
@@ -33,14 +33,6 @@ function readAll() {
 		);
 	});
 }
-
-/* 
-const viewAllRolesQuery = `
-    SELECT role.id, role.title, role.salary, department.name
-    FROM role
-    LEFT JOIN department ON department_id = department.id
-*/
-
 /**
  * Reads a role by its id
  * @param {INT} id
