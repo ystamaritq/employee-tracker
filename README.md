@@ -1,4 +1,4 @@
-# employee-tracker
+# Employee Tracker
 
 > A solution for managing a company's employees using node, inquirer, and MySQL.
 > <br>
@@ -63,19 +63,39 @@ Below is a summary of the key files for this project and their purpose:
 
 ## MVP
 
-- Add departments, roles, employees.
+    - Add Employee
 
-- View departments, roles, employees.
+    - View All Employees
 
-- Update employee roles.
+    - Update Employee
 
-- Update employee managers.
+    - Remove Employee
 
-- View employees by manager.
+    - View All Employees by Department
 
-- Delete departments, roles, and employees.
+    - View All Employees by Manager
 
-- Display total utilized budget of a department.
+    - View All Employees by Role
+
+    - View Budget by Department
+
+    - View All Managers
+
+    - Add Role
+
+    - View All Roles
+
+    - Update Role
+
+    - Remove Role
+
+    - Add Department
+
+    - View All Departments
+
+    - Update Department
+
+    - Remove Department
 
 #### database schema
 
@@ -87,7 +107,7 @@ Below is a summary of the key files for this project and their purpose:
 
 #### The following video demonstrates the application functionality:
 
-[Employee Tracker Link]()
+[Employee Tracker Link](https://drive.google.com/drive/folders/1qWR2TRJLYbwFE7C2rhiDDgvfqxLz2mnz?usp=sharing)
 
 ---
 
