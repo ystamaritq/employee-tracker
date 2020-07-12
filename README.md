@@ -1,5 +1,9 @@
 # Employee Tracker
 
+[![GitHub license](https://img.shields.io/github/license/ystamaritq/employee-tracker)](https://github.com/ystamaritq/employee-tracker/blob/master/LICENSE)
+
+[![Languages](https://img.shields.io/static/v1?label=db&message=mysql&color=green)](https://github.com/ystamaritq/employee-tracker/blob/master/LICENSE)
+
 > A solution for managing a company's employees using node, inquirer, and MySQL.
 > <br>
 
