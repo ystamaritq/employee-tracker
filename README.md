@@ -15,7 +15,7 @@
 
 - [Description](#description)
 - [User Stories](#user-stories)
-- [Installing / Getting Started](#inslalling-/-getting-started)
+- [Installing / Getting Started](#installing-/-getting-started)
 - [MVP](#mvp)
 - [Demo](#demo)
 - [Project Board](https://github.com/ystamaritq/employee-tracker)
