@@ -9,8 +9,8 @@
 <img src="./assets/logo.png" alt="employee-tracker-logo" width="350">
 <br>
 
-<font color="gray">A solution for managing a company's employees using node, inquirer, and MySQL.</font>
-<br>
+> A solution for managing a company's employees using node, inquirer, and MySQL.
+> <br>
 
 </div>
 
@@ -60,7 +60,7 @@ step 4: node index.js
 
 ## Developing
 
-Below is a summary of the key files for this project and their purpose:
+#### Below is a summary of the key files for this project and their purpose:
 
 - **index.js** main application entry point
 - **package.json** - node package definition ()
