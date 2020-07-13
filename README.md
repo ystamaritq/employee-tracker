@@ -9,9 +9,8 @@
 <img src="./assets/logo.png" alt="employee-tracker-logo" width="350">
 <br>
 
-> A solution for managing a company's employees using node, inquirer, and MySQL.
-
-> <br>
+<font color="gray">A solution for managing a company's employees using node, inquirer, and MySQL.</font>
+<br>
 
 </div>
 
