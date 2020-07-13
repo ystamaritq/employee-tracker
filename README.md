@@ -6,12 +6,11 @@
 
 <div align="center">
 <br>
-<img src="./assets/logo.png" alt="employee-tracker-logo" width="250">
+<img src="./assets/logo.png" alt="employee-tracker-logo" width="350">
 <br>
 
-# Employee Tracker
-
 > A solution for managing a company's employees using node, inquirer, and MySQL.
+
 > <br>
 
 </div>
